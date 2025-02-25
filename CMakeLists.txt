@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.22)
 project(double_pendulum LANGUAGES CXX)
 
-add_executable(${PROJECT_NAME} 
-    src/main.cpp)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(SOURCES src/main.cpp src/RungeKutta.h src/RungeKutta.cpp)
+add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
 
 # add_custom_command(
