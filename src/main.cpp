@@ -10,7 +10,7 @@ std::pair<double, double> adjust(double x, double y) {
     int cx = Const::WIDTH / 2;
     int cy = Const::HEIGHT / 2;
     x = cx + (x * Const::WIDTH / 6.0);
-    y = cy + (y * Const::HEIGHT / 6.0);
+    y = cy - (y * Const::HEIGHT / 6.0);
 
     return {x, y};
 }
