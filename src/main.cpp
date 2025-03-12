@@ -5,7 +5,6 @@
 #include "RungeKutta.h"
 #include "const.h"
 
-// TODO: make an adjust function which takes the co-ordinates and shifts them
 std::pair<double, double> adjust(double x, double y) {
     int cx = Const::WIDTH / 2;
     int cy = Const::HEIGHT / 2;
@@ -20,11 +19,10 @@ int main() {
                             "Double Pendulum Simulation", sf::Style::Default,
                             sf::ContextSettings(0, 0, 8));
     window.setFramerateLimit(10);
+
     RungeKutta rk(1.0, 2.0, 1.0, 2.0);
     std::vector<double> curr = {M_PI / 2.0, 0, 0, 0};
     rk.set_state(curr);
-
-    double ct = 0;
 
     while (window.isOpen()) {
         for (auto event = sf::Event{}; window.pollEvent(event);) {
@@ -34,8 +32,7 @@ int main() {
         }
         window.clear();
 
-        curr = rk.get_next(ct, curr);
-        ct += rk.get_dt();
+        curr = rk.get_next(curr);
 
         double x1 = cos(curr[0]);
         double y1 = sin(curr[0]);

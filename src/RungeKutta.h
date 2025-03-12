@@ -17,8 +17,7 @@ class RungeKutta {
 
     // state is of the format : {theta1, theta2, omega1, omega2}
     std::vector<double> calc(double time, std::vector<double>& state);
-    std::vector<double> get_next(double current_time,
-                                 std::vector<double>& current_state);
+    std::vector<double> get_next(std::vector<double>& current_state);
     std::vector<double> get_current_state();
 
     void set_state(std::vector<double> state);
@@ -41,6 +40,7 @@ class RungeKutta {
     double _m2;
 
     double _dt;
+    double _ct;
 
     std::vector<double> adjust(std::vector<double>& curr,
                                std::vector<double>& values, double factor);
