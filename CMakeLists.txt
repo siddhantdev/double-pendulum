@@ -3,6 +3,8 @@ project(double_pendulum LANGUAGES CXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+add_compile_options(-Wall -Wshadow -Wextra -O2)
+
 set(SOURCES src/main.cpp src/RungeKutta.h src/RungeKutta.cpp src/const.h)
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-window sfml-system)
