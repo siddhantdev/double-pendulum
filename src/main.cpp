@@ -32,7 +32,7 @@ int main() {
         }
         window.clear();
 
-        curr = rk.get_next(curr);
+        curr = rk.get_next();
 
         double x1 = cos(curr[0]);
         double y1 = sin(curr[0]);

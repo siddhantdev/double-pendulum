@@ -29,29 +29,30 @@ double RungeKutta::get_omega2() {
 }
 
 std::vector<double> RungeKutta::calc(std::vector<double>& state) {
-    assert(state.size() == 4);
-
-    set_state(state);
-
     std::vector<double> res;
 
-    res.emplace_back(this->_omega1);
-    res.emplace_back(this->_omega2);
+    double theta1 = state[0];
+    double theta2 = state[1];
+    double omega1 = state[2];
+    double omega2 = state[3];
 
-    const double delta = _theta1 - _theta2;
+    res.emplace_back(omega1);
+    res.emplace_back(omega2);
+
+    const double delta = theta1 - theta2;
     const double common_denom = 2 * _m1 + _m2 * (1 - cos(2 * delta));
 
     double omega1_prime =
-        -1.0 * _g * (2 * _m1 + _m2) * sin(_theta1) -
-        _m2 * _g * sin(delta - _theta2) -
+        -1.0 * _g * (2 * _m1 + _m2) * sin(theta1) -
+        _m2 * _g * sin(delta - theta2) -
         2 * sin(delta) * _m2 *
-            (_r2 * _omega2 * _omega2 + _r1 * _omega1 * _omega1 * cos(delta));
+            (_r2 * omega2 * omega2 + _r1 * omega1 * omega1 * cos(delta));
     omega1_prime /= (_r1 * common_denom);
 
     double omega2_prime =
-        2 * sin(delta) * (_r1 * _omega1 * _omega1 * (_m1 + _m2)) +
-        cos(_theta1) * _g * (_m1 + _m2) +
-        _r2 * _m2 * _omega2 * _omega2 * cos(delta);
+        2 * sin(delta) * (_r1 * omega1 * omega1 * (_m1 + _m2)) +
+        cos(theta1) * _g * (_m1 + _m2) +
+        _r2 * _m2 * omega2 * omega2 * cos(delta);
     omega2_prime /= (_r2 * common_denom);
 
     res.emplace_back(omega1_prime);
@@ -72,7 +73,8 @@ std::vector<double> RungeKutta::adjust(std::vector<double>& curr,
     return res;
 }
 
-std::vector<double> RungeKutta::get_next(std::vector<double>& current_state) {
+std::vector<double> RungeKutta::get_next() {
+    std::vector<double> current_state = get_current_state();
     std::vector<double> k1 = calc(current_state);
     k1 = adjust(current_state, k1, _dt / 2.0);
     std::vector<double> k2 = calc(k1);
@@ -86,7 +88,9 @@ std::vector<double> RungeKutta::get_next(std::vector<double>& current_state) {
     k4 = adjust(k4, k1);
 
     _ct += _dt;
-    return adjust(current_state, k4, _dt / 6.0);
+    std::vector<double> res = adjust(current_state, k4, _dt / 6.0);
+    set_state(res);
+    return res;
 }
 
 std::vector<double> RungeKutta::get_current_state() {

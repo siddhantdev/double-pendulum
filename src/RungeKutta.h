@@ -17,7 +17,7 @@ class RungeKutta {
 
     // state is of the format : {theta1, theta2, omega1, omega2}
     std::vector<double> calc(std::vector<double>& state);
-    std::vector<double> get_next(std::vector<double>& current_state);
+    std::vector<double> get_next();
     std::vector<double> get_current_state();
 
     void set_state(std::vector<double> state);
