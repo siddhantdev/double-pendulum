@@ -28,7 +28,7 @@ double RungeKutta::get_omega2() {
     return this->_omega2;
 }
 
-std::vector<double> RungeKutta::calc(double time, std::vector<double>& state) {
+std::vector<double> RungeKutta::calc(std::vector<double>& state) {
     assert(state.size() == 4);
 
     set_state(state);
@@ -73,19 +73,19 @@ std::vector<double> RungeKutta::adjust(std::vector<double>& curr,
 }
 
 std::vector<double> RungeKutta::get_next(std::vector<double>& current_state) {
-    _ct += _dt;
-    std::vector<double> k1 = calc(_ct, current_state);
+    std::vector<double> k1 = calc(current_state);
     k1 = adjust(current_state, k1, _dt / 2.0);
-    std::vector<double> k2 = calc(_ct + 0.5 * _dt, k1);
+    std::vector<double> k2 = calc(k1);
     k2 = adjust(current_state, k2, _dt / 2.0);
-    std::vector<double> k3 = calc(_ct + 0.5 * _dt, k2);
+    std::vector<double> k3 = calc(k2);
     k3 = adjust(current_state, k3, _dt);
-    std::vector<double> k4 = calc(_ct + _dt, k3);
+    std::vector<double> k4 = calc(k3);
 
     k4 = adjust(k4, k3, 2);
     k4 = adjust(k4, k2, 2);
     k4 = adjust(k4, k1);
 
+    _ct += _dt;
     return adjust(current_state, k4, _dt / 6.0);
 }
 

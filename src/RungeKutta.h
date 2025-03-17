@@ -16,7 +16,7 @@ class RungeKutta {
     double get_omega2();
 
     // state is of the format : {theta1, theta2, omega1, omega2}
-    std::vector<double> calc(double time, std::vector<double>& state);
+    std::vector<double> calc(std::vector<double>& state);
     std::vector<double> get_next(std::vector<double>& current_state);
     std::vector<double> get_current_state();
 
